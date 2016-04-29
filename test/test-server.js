@@ -29,12 +29,12 @@ describe('Shopping List', function() {
                 res.body.should.have.length(3);
                 res.body[0].should.be.a('object');
                 res.body[0].should.have.property('_id');
-                // res.body[0].should.have.property('name');
-                // res.body[0].id.should.be.a('number');
-                // res.body[0].name.should.be.a('string');
-                // res.body[0].name.should.equal('Broad beans');
-                // res.body[1].name.should.equal('Tomatoes');
-                // res.body[2].name.should.equal('Peppers');
+                res.body[0].should.have.property('name');
+                res.body[0]._id.should.be.a('string');
+                res.body[0].name.should.be.a('string');
+                res.body[0].name.should.equal('Broad beans');
+                res.body[1].name.should.equal('Tomatoes');
+                res.body[2].name.should.equal('Peppers');
                 done();
             });
     });

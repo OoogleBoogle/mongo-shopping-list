@@ -18,9 +18,15 @@ router.post('/items', function(req, res) {
     });
 });
 
-router.delete('/items/:id', function(req, res) {
-    console.log(req.params.id);
+router.put('/items/:id', function(req, res) {
+    Item.edit(req.params.id, req.body.name, function(item) {
+        res.status(200).json(item);
+    }, function(err) {
+        res.status(400).json(err);
+    });
+});
 
+router.delete('/items/:id', function(req, res) {
     Item.delete(req.params.id, function(item) {
         res.status(201).json(item);
     }, function(err) {

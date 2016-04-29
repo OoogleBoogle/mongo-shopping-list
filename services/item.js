@@ -20,6 +20,16 @@ exports.list = function (callback, errback) {
     });
 };
 
+exports.edit = function (id, name, callback, errback) {
+    Item.findByIdAndUpdate(id, {name: name}, function (err, item) {
+        if (err) {
+            errback(err);
+            return;
+        }
+        callback(item);
+    });
+};
+
 exports.delete = function (id, callback, errback) {
     Item.findByIdAndRemove(id, function (err, item) {
         if (err) {

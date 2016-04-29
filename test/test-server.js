@@ -78,7 +78,7 @@ describe('Shopping List', function() {
             .delete('/items/' + itemId)
             .end(function(err, res) {
                 should.equal(err, null);
-                res.should.have.status(201);
+                res.should.have.status(200);
                 res.should.be.json;
                 res.body.should.be.an('object');
                 done();

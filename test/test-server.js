@@ -1,5 +1,6 @@
 var chai = require('chai');
 var chaiHttp = require('chai-http');
+var itemId;
 
 global.environment = 'test';
 var server = require('../server.js');
@@ -14,6 +15,7 @@ chai.use(chaiHttp);
 describe('Shopping List', function() {
     before(function(done) {
         seed.run(function() {
+
             done();
         });
     });
@@ -22,6 +24,7 @@ describe('Shopping List', function() {
         chai.request(app)
             .get('/items')
             .end(function (err, res) {
+                itemId = res.body[0]._id;
                 should.equal(err, null);
                 res.should.have.status(200);
                 res.should.be.json;
@@ -57,27 +60,27 @@ describe('Shopping List', function() {
             });
     });
 
-    it('should delete an item from storage', function(done) {
+    it('should modify an item from storage', function(done) {
         chai.request(app)
-            .delete('/items/1')
+            .put('/items/' + itemId)
+            .send({'name': 'monads', '_id': itemId})
             .end(function(err, res) {
                 should.equal(err, null);
-                res.should.have.status(201);
+                res.should.have.status(200);
                 res.should.be.json;
-                res.body.should.be.a('array');
+                res.body.should.be.an('object');
                 done();
             });
     });
 
-    it('should modify an item from storage', function(done) {
+    it('should delete an item from storage', function(done) {
         chai.request(app)
-            .put('/items/2')
-            .send({'name': 'monads', '_id': 2})
+            .delete('/items/' + itemId)
             .end(function(err, res) {
                 should.equal(err, null);
                 res.should.have.status(201);
                 res.should.be.json;
-                res.body.should.be.a('array');
+                res.body.should.be.an('object');
                 done();
             });
     });
@@ -87,8 +90,4 @@ describe('Shopping List', function() {
             done();
         });
     });
-});
-
-describe('Shopping List', function () {
-
 });
